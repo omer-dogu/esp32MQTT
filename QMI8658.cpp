@@ -564,7 +564,7 @@ unsigned char QMI8658_init(void)
 	{
     Serial.print("QMI8658_init slave = ");
     Serial.println(QMI8658_slave_addr);
-    Serial.print("nQMI8658Register_WhoAmI = ");
+    Serial.print("QMI8658Register_WhoAmI = ");
     Serial.print(QMI8658_chip_id);
     Serial.print(" ");
     Serial.println(QMI8658_revision_id);
