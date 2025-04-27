@@ -2,6 +2,9 @@
 #include <PubSubClient.h>
 #include "QMI8658.h"
 
+float acc[3], gyro[3];
+unsigned int tim_count = 0;
+
 const char* ssid = "wifiName";
 const char* password = "wifiPassword";
 const char* mqtt_broker = "127.0.0.1";
@@ -58,5 +61,18 @@ void loop() {
     reconnect();
   }
   client.loop();
+
+  QMI8658_read_xyz(acc, gyro, &tim_count);
+
+  // MQTT Message in JSON
+  String payload = "{";
+  payload += "\"acc\":[" + String(acc[0]) + "," + String(acc[1]) + "," + String(acc[2]) + "],";
+  payload += "\"gyro\":[" + String(gyro[0]) + "," + String(gyro[1]) + "," + String(gyro[2]) + "]";
+  payload += "}";
+
+  client.publish("sensor/qmi8658", payload.c_str());
+  Serial.println("Message transmit");
+  Serial.println(payload);
+  delay(1000);
 
 }
